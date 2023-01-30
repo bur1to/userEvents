@@ -1,6 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const users = require('./routers/userRouter');
+const { userRoute, eventRoute } = require('./routers/index');
 
 mongoose.set('strictQuery', true);
 const app = express();
@@ -12,7 +12,8 @@ mongoose.connect('mongodb://localhost:27017/userEvents', { useNewUrlParser: true
   .then(() => console.log('Database successfully connected'))
   .catch((err) => console.log(err));
 
-app.use('/users', users);
+app.use('/users', userRoute);
+app.use('/events', eventRoute);
 
 app.listen(3000, () => {
   console.log('Server is running');
