@@ -9,7 +9,7 @@ const getUsers = (async (req, res, next) => {
       phoneNumber: 1
     });
 
-    res.send(data);
+    res.status(200).send(data);
   } catch (err) {
     next(err);
   }
@@ -20,7 +20,7 @@ const getUser = (async (req, res, next) => {
     const { id } = req.params;
     const data = await User.findOne({ _id: id });
 
-    res.send(data);
+    res.status(200).send(data);
   } catch (err) {
     next(err);
   }
@@ -30,14 +30,10 @@ const createUser = (async (req, res, next) => {
   try {
     const { body } = req;
 
-    if (!body) {
-      throw new Error('Body required');
-    }
-
     const createParams = await userCreateValidation(body);
     const newUser = await User.create(createParams);
 
-    res.send(newUser);
+    res.status(200).send(newUser);
   } catch (err) {
     next(err);
   }
@@ -50,9 +46,9 @@ const updateUser = (async (req, res, next) => {
 
     const updateParams = await userUpdateValidation(body);
 
-    const updated = await User.findByIdAndUpdate(id, updateParams, { nw: true });
+    const updated = await User.findByIdAndUpdate(id, updateParams, { new: true });
 
-    res.send(updated);
+    res.status(200).send(updated);
   } catch (err) {
     next(err);
   }
@@ -64,7 +60,7 @@ const deleteUser = (async (req, res, next) => {
 
     const deleted = await User.deleteOne({ _id: id });
 
-    res.send(deleted);
+    res.status(200).send(deleted);
   } catch (err) {
     next(err);
   }
