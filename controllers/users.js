@@ -3,11 +3,13 @@ const { userCreateValidation, userUpdateValidation } = require('../validations/u
 
 const getUsers = (async (req, res, next) => {
   try {
+    const { page } = req.query || 0;
+
     const data = await User.find({}, {
       firstName: 1,
       lastName: 1,
       phoneNumber: 1
-    });
+    }).skip(page * 2).limit(2);
 
     res.status(200).send(data);
   } catch (err) {
