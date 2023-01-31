@@ -2,6 +2,7 @@ const Joi = require('joi');
 
 const eventCreateValidation = (data) => {
   const createValidation = Joi.object({
+    userId: Joi.string(),
     title: Joi.string().min(5).max(50).required(),
     description: Joi.string().min(5).required(),
     startDate: Joi.date().required(),
