@@ -3,10 +3,15 @@ const { userCreateValidation, userUpdateValidation } = require('../validations/u
 
 const getUsers = (async (req, res, next) => {
   try {
-    const { page } = req.query || 0;
-    const { limit } = req.query;
+    let { page, limit } = req.query;
 
-    const userPerPage = 2;
+    if (!page) {
+      page = 0;
+    }
+
+    if (!limit) {
+      limit = 5;
+    }
 
     // const userCount = await User.countDocuments();
 
@@ -15,7 +20,9 @@ const getUsers = (async (req, res, next) => {
       lastName: 1,
       email: 1,
       phoneNumber: 1
-    }).sort({ firstName: 1 }).skip(page * userPerPage).limit(limit);
+    }).sort({ firstName: 1 })
+      .skip(page * limit)
+      .limit(limit);
 
     res.status(200).send(data);
   } catch (err) {
