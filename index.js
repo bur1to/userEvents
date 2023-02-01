@@ -1,6 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const { userRoute, eventRoute } = require('./routers/index');
+const { userRoute, eventRoute } = require('./routes/index');
 
 mongoose.set('strictQuery', true);
 const app = express();
