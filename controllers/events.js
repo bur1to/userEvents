@@ -1,5 +1,40 @@
 const Event = require('../models/event');
-const { eventCreateValidation, eventUpdateValidation } = require('../validations/eventValidation');
+const { eventCreateValidation, eventUpdateValidation, eventGetValidation } = require('../validations/eventValidation');
+
+const getUserEvents = (async (req, res, next) => {
+  try {
+    const { query } = req;
+    const {
+      page,
+      limit,
+      sort,
+      sortBy
+    } = await eventGetValidation(query);
+
+    console.log(query);
+
+    const sortOrder = sortBy === 'asc' ? 1 : -1;
+
+    const { userId } = req.params;
+    const data = await Event.find({ userId }, {
+      title: 1,
+      description: 1,
+      startDate: 1,
+      endDate: 1
+    }).sort({ [sort]: sortOrder })
+      .skip(page * limit)
+      .limit(limit)
+      .lean();
+
+    const count = Event.countDocuments({ userId });
+
+    const result = JSON.stringify(data, count);
+
+    res.status(200).send(result);
+  } catch (err) {
+    next(err);
+  }
+});
 
 const createEvent = (async (req, res, next) => {
   try {
@@ -41,6 +76,7 @@ const deleteEvent = (async (req, res, next) => {
 });
 
 module.exports = {
+  getUserEvents,
   createEvent,
   updateEvent,
   deleteEvent
