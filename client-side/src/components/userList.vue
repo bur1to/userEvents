@@ -67,7 +67,6 @@ export default {
       const { data } = await axios.get('http://localhost:3000/users', { params });
       console.log(params);
       this.users = data.users;
-      console.log(data);
       this.totalPages = Math.ceil(data.count / this.limit);
     }
   },

@@ -30,8 +30,6 @@ const getUsers = (async (req, res, next) => {
       sortBy
     } = await userGetValidation(query);
 
-    console.log(query);
-
     const sortOrder = sortBy === 'asc' ? 1 : -1;
 
     const count = await User.countDocuments();
