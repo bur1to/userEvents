@@ -5,7 +5,6 @@
         </div>
         <div><strong>Email: </strong>{{ user.email }}</div>
         <div><strong>Phone Number: </strong>{{ user.phoneNumber }}</div>
-        <div><strong>Event Count: </strong>{{ user.eventCount }}</div>
         <my-button @click="showDialog">Create event</my-button>
         <my-dialog v-model:show="dialogVisible">
             <event-form @create="createEvent" />
