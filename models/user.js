@@ -4,7 +4,9 @@ const userSchema = mongoose.Schema({
   firstName: { type: String, minLength: 2, maxLength: 20 },
   lastName: { type: String, minLength: 2, maxLength: 20 },
   email: { type: String, unique: true },
-  phoneNumber: { type: String }
+  phoneNumber: { type: String },
+  eventCount: { type: Number },
+  nextDateEvent: { type: Date }
 }, {
   collection: 'users',
   versionKey: false
