@@ -1,15 +1,67 @@
 const User = require('../models/user');
-const { userCreateValidation, userUpdateValidation } = require('../validations/userValidation');
+const Event = require('../models/event');
+
+const { userCreateValidation, userUpdateValidation, userGetValidation } = require('../validations/userValidation');
+
+const getEvents = async (userId) => {
+  const [nextEvent] = await Event.find({
+    userId,
+    startDate: { $gte: new Date() }
+  })
+    .sort({ startDate: 1 })
+    .limit(1)
+    .lean();
+
+  const eventsCount = await Event.countDocuments({ userId });
+  return {
+    userId,
+    nextEvent,
+    eventsCount
+  };
+};
 
 const getUsers = (async (req, res, next) => {
   try {
-    const data = await User.find({}, {
+    const { query } = req;
+    const {
+      page,
+      limit,
+      sort,
+      sortBy
+    } = await userGetValidation(query);
+
+    console.log(query);
+
+    const sortOrder = sortBy === 'asc' ? 1 : -1;
+
+    const count = await User.countDocuments();
+    const users = await User.find({}, {
       firstName: 1,
       lastName: 1,
-      phoneNumber: 1
+      email: 1,
+      phoneNumber: 1,
+      eventCount: 1,
+      nextEventDate: 1
+    }).sort({ [sort]: sortOrder })
+      .skip(page * limit)
+      .limit(limit)
+      .lean();
+
+    const tasks = users.map((user) => getEvents(user._id.toString()));
+
+    const usersEventsResults = await Promise.all(tasks);
+
+    const result = users.map((user) => {
+      const userId = user._id.toString();
+      const userEvents = usersEventsResults.find((item) => item.userId === userId);
+
+      return {
+        ...user,
+        ...userEvents
+      };
     });
 
-    res.status(200).send(data);
+    res.status(200).send({ users: result, count });
   } catch (err) {
     next(err);
   }

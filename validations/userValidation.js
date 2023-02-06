@@ -1,5 +1,16 @@
 const Joi = require('joi');
 
+const userGetValidation = (data) => {
+  const getValidation = Joi.object({
+    page: Joi.number().default(0),
+    limit: Joi.number().default(5),
+    sort: Joi.string().allow('firstName', 'lastName', 'email').default('firstName'),
+    sortBy: Joi.string().default('asc')
+  });
+
+  return getValidation.validateAsync(data);
+};
+
 const userCreateValidation = (data) => {
   const createValidation = Joi.object({
     firstName: Joi.string().min(2).max(20).required(),
@@ -24,5 +35,6 @@ const userUpdateValidation = (data) => {
 
 module.exports = {
   userCreateValidation,
-  userUpdateValidation
+  userUpdateValidation,
+  userGetValidation
 };

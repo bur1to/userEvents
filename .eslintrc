@@ -6,6 +6,7 @@
             "error",
             "never"
         ],
-        "no-useless-escape": "off"
+        "no-useless-escape": "off",
+        "no-underscore-dangle": "off"
     }
 }
