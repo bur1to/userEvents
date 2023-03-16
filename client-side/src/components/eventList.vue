@@ -4,6 +4,7 @@
         <div class="select">
             <strong>Sort by:</strong>
             <my-select v-model="sort" :options="selectedOptions" @click="sortedEvents" />
+            <div><strong class="count">Number of events: </strong> {{ events.length }}</div>
         </div>
         <table class="table">
             <thead>
@@ -18,6 +19,9 @@
                     <td>{{ event.description }}</td>
                     <td>{{ event.startDate }}</td>
                     <td>{{ event.endDate }}</td>
+                    <td>
+                        <my-button @click="deleteEvent(event._id)" class="btn__delete">Delete</my-button>
+                    </td>
                 </tr>
             </tbody>
         </table>
@@ -57,9 +61,13 @@ export default {
         async getEvents(params) {
             const { data } = await axios.get(`http://localhost:3000/events/${this.$route.params.id}`, { params });
             this.events = data;
-            console.log(params)
             this.totalPages = Math.ceil(data.length / this.limit);
         },
+        async deleteEvent(id) {
+            await axios.delete(`http://localhost:3000/events/${id}`)
+              .then((res) => console.log(res))
+              .catch((err) => console.log(err));
+        }
     },
     mounted() {
         this.getEvents();
@@ -74,7 +82,7 @@ export default {
 
 .table {
     border-collapse: collapse;
-    border: 2px solid teal;
+    border: 2px solid white;
     margin: auto;
 }
 
@@ -84,7 +92,7 @@ thead {
 
 th,
 td {
-    border: 2px solid teal;
+    border: 2px solid white;
     padding: 10px;
     min-width: 200px;
 }
@@ -98,7 +106,7 @@ a:visited {
 }
 
 .route_style {
-    color: teal;
+    color: white;
 }
 
 .page__wrapper {
@@ -114,12 +122,20 @@ a:visited {
 }
 
 .current-page {
-    border: 2.5px solid teal;
+    border: 2.5px solid white;
+}
+
+.btn__delete {
+    margin-bottom: 10px;
 }
 
 .select {
     display: flex;
     justify-content: center;
     margin-bottom: 15px;
+}
+
+.count {
+    margin-left: 15px;
 }
 </style>

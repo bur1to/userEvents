@@ -5,8 +5,11 @@ const userSchema = mongoose.Schema({
   lastName: { type: String, minLength: 2, maxLength: 20 },
   email: { type: String, unique: true },
   phoneNumber: { type: String },
+  password: { type: String, minLength: 8 },
+  salt: { type: String },
   eventCount: { type: Number },
-  nextDateEvent: { type: Date }
+  nextDateEvent: { type: Date },
+  vlogCount: { type: Number }
 }, {
   collection: 'users',
   versionKey: false

@@ -17,7 +17,7 @@ const eventGetValidation = (data) => {
     page: Joi.number().default(0),
     limit: Joi.number().default(5),
     sort: Joi.string().allow('title', 'description').default('title'),
-    sortBy: Joi.string().default('asc')
+    sortBy: Joi.string().allow('asc', 'desc').default('asc')
   });
 
   return getValidation.validateAsync(data);

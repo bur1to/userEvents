@@ -1,7 +1,12 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const { userRoute, eventRoute } = require('./routes/index');
+const {
+  userRoute,
+  eventRoute,
+  loginRoute
+} = require('./routes/index');
+const blogRoute = require('./routes/blogRouter');
 
 mongoose.set('strictQuery', true);
 const app = express();
@@ -16,6 +21,8 @@ mongoose.connect('mongodb://localhost:27017/userEvents', { useNewUrlParser: true
 
 app.use('/users', userRoute);
 app.use('/events', eventRoute);
+app.use('/login', loginRoute);
+app.use('/blogs', blogRoute);
 
 app.listen(3000, () => {
   console.log('Server is running');

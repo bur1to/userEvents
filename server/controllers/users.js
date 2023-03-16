@@ -1,3 +1,4 @@
+const crypto = require('crypto');
 const User = require('../models/user');
 const Event = require('../models/event');
 
@@ -81,6 +82,11 @@ const createUser = (async (req, res, next) => {
     const { body } = req;
 
     const createParams = await userCreateValidation(body);
+
+    const salt = crypto.randomBytes(16).toString('hex');
+
+    createParams.password = crypto.pbkdf2Sync(createParams.password, salt, 1000, 64, 'sha512').toString();
+    createParams.salt = salt;
     const newUser = await User.create(createParams);
 
     res.status(200).send(newUser);

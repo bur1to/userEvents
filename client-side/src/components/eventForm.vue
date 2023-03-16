@@ -1,12 +1,12 @@
 <template>
     <form @submit.prevent>
         <h4>Create event</h4>
-        <input v-model="event.title" @input="title = $event.target.value" class="input" type="text"
+        <input v-model="event.title" class="input" type="text"
             placeholder="My event">
-        <input v-model="event.description" @input="description = $event.target.value" class="input" type="text"
+        <input v-model="event.description" class="input" type="text"
             placeholder="My plans on this event">
-        <input v-model="event.startDate" @input="startDate = $event.target.value" class="input" type="date">
-        <input v-model="event.endDate" @input="endDate = $event.target.value" class="input" type="date">
+        <input v-model="event.startDate" class="input" type="date">
+        <input v-model="event.endDate" class="input" type="date">
         <my-button @click="createEvent">Create event</my-button>
     </form>
 </template>

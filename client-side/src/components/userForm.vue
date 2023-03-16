@@ -1,20 +1,48 @@
 <template>
-  <form @submit.prevent>
-    <h4>Create user</h4>
-    <input v-model="user.firstName" @input="firstName = $event.target.value" class="input" type="text"
-      placeholder="First name">
-    <input v-model="user.lastName" @input="lastName = $event.target.value" class="input" type="text"
-      placeholder="Second name">
-    <input v-model="user.email" @input="email = $event.target.value" class="input" type="email"
-      placeholder="example@example.com">
-    <input v-model="user.phoneNumber" @input="phoneNumber = $event.target.value" class="input" type="text"
-      placeholder="+(38) 111 111 1111">
-    <my-button @click="createUser">Create user</my-button>
-  </form>
+ <title>Registration</title>
+ <div class="register_block">
+  <div class="registerForm">
+    <form @submit.prevent class="form">
+      <h3 class="h4">Registration</h3>
+      <label>
+        Username: <br />
+      </label>
+      <input v-model="user.firstName" class="input" type="text"
+        placeholder="First name"> 
+      <input v-model="user.lastName" class="input" type="text"
+        placeholder="Second name"> <br />
+      <label>
+        Email: <br />
+      </label>
+      <input v-model="user.email" class="input" type="email"
+        placeholder="example@example.com"> <br />
+        <label>
+          Phone number: <br />
+        </label>
+      <input v-model="user.phoneNumber" class="input" type="text"
+        placeholder="+(38) 111 111 1111"> <br />
+        <label>
+          Password: <br />
+        </label>
+      <input v-model="user.password" class="input" type="password"
+        placeholder="Your account password"> <br />
+        <label>
+          Confirm password: <br />
+        </label>
+      <input v-model="user.confirmPassword" class="input" type="password"
+        placeholder="Confirm your password">
+      <div class="btn_block">
+        <button class="btn3" @click="createUser">Registration</button>
+        <RouterLink to="/login" class="login">Already have account?</RouterLink>
+      </div>
+    </form>
+   </div>
+ </div>
 </template>
 
 <script>
-import axios from 'axios'
+import router from '@/router';
+import axios from 'axios';
 
 export default {
   data() {
@@ -23,14 +51,19 @@ export default {
         firstName: '',
         lastName: '',
         email: '',
-        phoneNumber: ''
+        phoneNumber: '',
+        password: '',
+        confirmPassword: ''
       }
     }
   },
   methods: {
     async createUser() {
-      await axios.post('http://localhost:3000/users', this.user )
-        .then((res) => console.log(res))
+      await axios.post('http://localhost:3000/users/register', this.user )
+        .then((res) => {
+          localStorage.setItem('token', res.data.token);
+          router.push('/');
+        })
         .catch((err) => console.log(err));
 
       this.$emit('create', this.user);
@@ -38,7 +71,9 @@ export default {
         firstName: '',
         lastName: '',
         email: '',
-        phoneNumber: ''
+        phoneNumber: '',
+        password: '',
+        confirmPassword: ''
       };
     }
   }
@@ -46,9 +81,46 @@ export default {
 </script>
 
 <style>
-form {
+.register_block {
   display: flex;
-  flex-direction: column;
+  justify-content: center;
+}
+
+.registerForm {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  background: transparent;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(15px);
+  width: 400px;
+  border-radius: 20px;
+  padding-bottom: 30px;
+  color: white;
+}
+
+.btn3 {
+  font-size: 20px;
+  border-radius: 15px;
+  padding: 5px 20px 5px 20px;
+}
+
+.btn3:hover {
+  border: 2px solid pink;
+}
+
+.login {
+  padding-left: 10px;
+  padding-top: 8.9px;
+  font-size: 18px;
+}
+
+.login:visited {
+  color: gray;
+}
+
+.login:hover {
+  color: white;
 }
 
 .input {

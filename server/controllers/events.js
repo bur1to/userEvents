@@ -11,8 +11,6 @@ const getUserEvents = (async (req, res, next) => {
       sortBy
     } = await eventGetValidation(query);
 
-    console.log(query);
-
     const sortOrder = sortBy === 'asc' ? 1 : -1;
 
     const { userId } = req.params;
