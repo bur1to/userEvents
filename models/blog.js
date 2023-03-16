@@ -11,6 +11,6 @@ const vlogSchema = mongoose.Schema({
   versionKey: false
 });
 
-const Vlog = mongoose.model('Vlog', vlogSchema);
+const Blog = mongoose.model('Blog', vlogSchema);
 
-module.exports = Vlog;
+module.exports = Blog;

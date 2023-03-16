@@ -21,7 +21,7 @@ mongoose.connect('mongodb://localhost:27017/userEvents', { useNewUrlParser: true
 
 app.use('/users', userRoute);
 app.use('/events', eventRoute);
-app.use('/login', loginRoute);
+app.use('/auth', loginRoute);
 app.use('/blogs', blogRoute);
 
 app.listen(3000, () => {

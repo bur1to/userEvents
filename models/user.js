@@ -6,7 +6,9 @@ const userSchema = mongoose.Schema({
   email: { type: String, unique: true },
   phoneNumber: { type: String },
   password: { type: String, minLength: 8 },
+  confirmPassword: { type: String },
   salt: { type: String },
+  token: { type: String },
   eventCount: { type: Number },
   nextDateEvent: { type: Date },
   vlogCount: { type: Number }

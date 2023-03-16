@@ -17,7 +17,8 @@ const userCreateValidation = (data) => {
     lastName: Joi.string().min(2).max(20).required(),
     email: Joi.string().email().required(),
     phoneNumber: Joi.string().pattern(/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/).required(),
-    password: Joi.string().pattern(/^[a-zA-Z0-9!@#$%^&*]{8,30}$/).required()
+    password: Joi.string().pattern(/^[a-zA-Z0-9!@#$%^&*]{8,30}$/).required(),
+    confirmPassword: Joi.string().valid(Joi.ref('password')).required()
   });
 
   return createValidation.validateAsync(data);
@@ -29,7 +30,8 @@ const userUpdateValidation = (data) => {
     lastName: Joi.string().min(2).max(20),
     email: Joi.string().email(),
     phoneNumber: Joi.string().pattern(/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/),
-    password: Joi.string().pattern(/^[a-zA-Z0-9!@#$%^&*]{8,30}$/)
+    password: Joi.string().pattern(/^[a-zA-Z0-9!@#$%^&*]{8,30}$/),
+    confirmPassword: Joi.ref('password')
   });
 
   return updateValidation.validateAsync(data);

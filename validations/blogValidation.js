@@ -1,6 +1,6 @@
 const Joi = require('joi');
 
-const vlogCreateValidation = (data) => {
+const blogCreateValidation = (data) => {
   const createValidation = Joi.object({
     userId: Joi.string().required(),
     title: Joi.string().min(10).required(),
@@ -12,7 +12,7 @@ const vlogCreateValidation = (data) => {
   return createValidation.validateAsync(data);
 };
 
-const vlogUpdateValidation = (data) => {
+const blogUpdateValidation = (data) => {
   const updateValidation = Joi.object({
     title: Joi.string().min(10),
     content: Joi.string(),
@@ -23,7 +23,7 @@ const vlogUpdateValidation = (data) => {
   return updateValidation.validateAsync(data);
 };
 
-const vlogGetValidation = (data) => {
+const blogGetValidation = (data) => {
   const getValidation = Joi.object({
     page: Joi.number().default(0),
     limit: Joi.number().default(5),
@@ -35,7 +35,7 @@ const vlogGetValidation = (data) => {
 };
 
 module.exports = {
-  vlogCreateValidation,
-  vlogUpdateValidation,
-  vlogGetValidation
+  blogCreateValidation,
+  blogUpdateValidation,
+  blogGetValidation
 };
