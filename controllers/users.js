@@ -1,3 +1,5 @@
+const crypto = require('crypto');
+const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const Event = require('../models/event');
 
@@ -81,7 +83,31 @@ const createUser = (async (req, res, next) => {
     const { body } = req;
 
     const createParams = await userCreateValidation(body);
+
+    const existUser = await User.findOne({ email: createParams.email });
+
+    if (existUser) {
+      res.status(409).send('User already exist. Please login!');
+    }
+
+    const salt = crypto.randomBytes(16).toString('hex');
+
+    createParams.password = crypto.pbkdf2Sync(createParams.password, salt, 1000, 64, 'sha512').toString('hex');
+    createParams.confirmPassword = crypto.pbkdf2Sync(createParams.confirmPassword, salt, 1000, 64, 'sha512').toString('hex');
+    createParams.salt = salt;
     const newUser = await User.create(createParams);
+
+    const { _id, email } = newUser;
+
+    const token = jwt.sign(
+      { user_id: _id, email },
+      `${process.env.TOKEN_KEY}`,
+      {
+        expiresIn: '2h'
+      }
+    );
+
+    newUser.token = token;
 
     res.status(200).send(newUser);
   } catch (err) {
