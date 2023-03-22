@@ -22,7 +22,7 @@ At folder 'userEvents' you will start the server by this command:
 npm start
 ```
 
-Now open terminal in Visual Studio Code and follow this commands for starting front-end:
+Now open folder 'userEvents' and terminal in Visual Studio Code and follow this commands for starting front-end:
 ```bash
 cd ./client-side
 ```
