@@ -16,7 +16,7 @@ git clone https://github.com/bur1to/userEvents.git
 cd ./userEvents
 ```
 
-At folder 'userEvents' you will start the server by this command:
+At directory 'userEvents' you will start the server by this command:
 
 ```bash
 npm start
