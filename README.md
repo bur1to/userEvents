@@ -27,7 +27,7 @@ Now open folder 'userEvents' and terminal in Visual Studio Code and follow this 
 cd ./client-side
 ```
 ```bash
-npm run server
+npm run serve
 ```
 
 At terminal you will see link to the page use:
