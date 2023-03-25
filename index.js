@@ -4,7 +4,8 @@ const cors = require('cors');
 const {
   userRoute,
   eventRoute,
-  loginRoute
+  loginRoute,
+  commentRoute
 } = require('./routes/index');
 const blogRoute = require('./routes/blogRouter');
 
@@ -23,6 +24,7 @@ app.use('/users', userRoute);
 app.use('/events', eventRoute);
 app.use('/auth', loginRoute);
 app.use('/blogs', blogRoute);
+app.use('/comments', commentRoute);
 
 app.listen(3000, () => {
   console.log('Server is running');
