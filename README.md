@@ -1,4 +1,4 @@
-# userEvents
+# User events and blogs
 
 
 For start project follow this commands:
