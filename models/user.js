@@ -11,7 +11,7 @@ const userSchema = mongoose.Schema({
   token: { type: String },
   eventCount: { type: Number },
   nextDateEvent: { type: Date },
-  vlogCount: { type: Number }
+  blogCount: { type: Number }
 }, {
   collection: 'users',
   versionKey: false

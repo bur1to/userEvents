@@ -4,7 +4,7 @@ const router = express.Router();
 
 const {
   getBlogs,
-  getUserBlogs,
+  userBlogs,
   getBlog,
   createBlog,
   updateBlog,
@@ -12,8 +12,8 @@ const {
 } = require('../controllers/blogs');
 
 router.get('/', getBlogs);
-router.get('/:userId', getUserBlogs);
 router.get('/:id', getBlog);
+router.get('/usrBlogs/:userId', userBlogs);
 
 router.post('/', createBlog);
 

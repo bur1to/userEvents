@@ -30,9 +30,11 @@ export default {
 <style>
 .users {
     background: rgba(0, 0, 0, 0.5);
-    height: 600px;
+    height: auto;
     padding: 20px;
     margin-top: 15px;
     color: white;
+    border: 2px solid white;
+    border-radius: 20px;
 }
 </style>

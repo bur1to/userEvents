@@ -25,6 +25,7 @@ export default {
 
 <style>
 .dialog {
+    color: white;
     top: 0;
     bottom: 0;
     left: 0;
@@ -33,11 +34,10 @@ export default {
     position: fixed;
     display: flex;
 }
-
 .dialog__content {
     margin: auto;
-    background: white;
-    border-radius: 12px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 15px;
     min-height: 50px;
     min-width: 400px;
     padding: 20px;

@@ -33,17 +33,20 @@ export default {
   },
   methods: {
     async userLogin() {
-      await axios.post('http://localhost:3000/auth/login', this.user)
-        .then((res) => {
-          localStorage.setItem('token', res.data.token);
-          router.push('/')
-        })
-        .catch((err) => console.log(err));
+      try {
+        const { data } = await axios.post('http://localhost:3000/auth/login', this.user);
 
-      this.$emit('login', this.user);
-      this.user = {
-        email: '',
-        password: ''
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('id', data._id);
+        router.push('/');
+
+        this.$emit('login', this.user);
+        this.user = {
+          email: '',
+          password: ''
+        }
+      } catch (err) {
+        console.log(err);
       }
     }
   }
@@ -78,7 +81,9 @@ export default {
 
 .btn2 {
   font-size: 20px;
-  background: rgba(255, 255, 255, 0.3);
+  background: none;
+  color: white;
+  border: 2px solid white;
   border-radius: 15px;
   padding: 3px 15px 3px 15px;
 }
@@ -88,11 +93,11 @@ export default {
   padding-left: 10px;
   padding-top: 7.3px;
   font-size: 18px;
-  color: white;
+  color: lightgray;
 }
 
 .register:visited {
-  color: violet;
+  color: lightgray;
 }
 
 .register:hover {
@@ -100,7 +105,8 @@ export default {
 }
 
 .btn2:hover {
-  border: 2px solid pink;
+  background: white;
+  color: black;
 }
 
 .input {
@@ -108,9 +114,6 @@ export default {
   border-radius: 15px;
   padding: 10px 15px;
   margin-top: 15px;
-}
-
-.input input {
-  border: none;
+  border: 2px solid teal;
 }
 </style>
