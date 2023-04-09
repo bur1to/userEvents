@@ -28,7 +28,9 @@
     "nodemon": "^2.0.20",
     "npm": "^9.4.1",
     "path-browserify": "^1.0.1",
-    "stream-browserify": "^3.0.0"
+    "stream-browserify": "^3.0.0",
+    "swagger-ui-express": "^4.6.2",
+    "yamljs": "^0.3.0"
   },
   "engines": {
     "node": ">=14.15.0"
