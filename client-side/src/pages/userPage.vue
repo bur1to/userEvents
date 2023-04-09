@@ -1,65 +1,68 @@
 <template>
     <div class="user">
-        <router-link :to="'/update/' + this.$route.params.id " class="updateData">Update data</router-link>
         <div>
             <h2>{{ `${user.firstName} ${user.lastName}` }}</h2>
         </div>
         <div style="font-size: 20px;"><strong>Email: </strong>{{ user.email }}</div>
         <div style="font-size: 20px;"><strong>Phone Number: </strong>{{ user.phoneNumber }}</div>
         <div class="btn_block4">
-            <button class="btn6">My events</button>
-            <button class="btn7">My blogs</button>
+            <button class="btn6" @click="showEvent">My events</button>
+            <button class="btn7" @click="showBlog">My blogs</button>
+            <button class="btn14" @click="editPage" :user="user">Edit profile</button>
         </div>
-        <eventList :events="events" />
-        <!-- <my-button @click="showDialog">Create event</my-button>
-        <my-dialog v-model:show="dialogVisible">
-            <event-form @create="createEvent" />
-        </my-dialog> -->
-        <!-- <my-button @click="showDialog" class="btn__update">Edit</my-button>
-        <my-dialog v-model:show="dialogVisible">
-            <updateUserForm @click="updateUser"/>
-        </my-dialog> -->
+        <div v-if="showEvents === true">
+            <eventList :events="events" />
+        </div>
+        <div v-if="showEvents === false">
+            <userBlogsList :blogs="blogs" />
+        </div>
     </div>
 </template>
 
 <script>
+import router from '@/router';
 import axios from 'axios';
 import eventList from '@/components/eventList.vue';
-import eventForm from '@/components/eventForm.vue';
 import updateUserForm from '@/components/updateUserForm.vue';
-import blogForm from '@/components/blogFrom.vue';
+import userBlogsList from '@/components/userBlogsList.vue';
 
 export default {
     components: {
         eventList,
-        eventForm,
         updateUserForm,
-        blogForm
+        userBlogsList
     },
     data() {
         return {
             user: [],
             events: [],
-            vlogs: [],
-            dialogVisible: false
+            blogs: [],
+            showEvents: true
         }
     },
     methods: {
         async getUser() {
-            const { data } = await axios.get(`http://localhost:3000/users/${this.$route.params.id}`);
-            console.log(data);
-            this.user = data;
-        },
-        showDialog() {
-            this.dialogVisible = true;
+            try {
+                const { data } = await axios.get(`http://localhost:3000/users/${localStorage.getItem('id')}`);
+                this.user = data;
+            } catch (err) {
+                console.log(err);
+            }
         },
         createEvent(event) {
             this.events.push(event);
-            this.dialogVisible = false;
         },
-        createVlog(vlog) {
-            this.vlogs.push(vlog);
-            this.dialogVisible = false;
+        createBlog(blog) {
+            this.blogs.push(blog);
+        },
+        showBlog() {
+            this.showEvents = false;
+        },
+        showEvent() {
+            this.showEvents = true;
+        },
+        editPage() {
+            router.push('/edit_profile');
         }
     },
     mounted() {
@@ -70,13 +73,16 @@ export default {
 
 <style>
 .user {
+    margin-top: 20px;
     padding: 15px;
     margin-left: 15px;
     margin-right: 15px;
     background: rgba(0, 0, 0, 0.5);
     border-radius: 20px;
-    height: 630px;
+    height: auto;
+    width: auto;
     color: white;
+    border: 2px solid white;
 }
 
 .btn_block4 {
@@ -96,17 +102,31 @@ export default {
     padding: 3px 12px 3px 12px;
 }
 
-.updateData {
-    padding-left: 15px;
-    color:black;
+.btn6,
+.btn7 {
+    background: none;
+    color: white;
+    border: 2px solid white;
+}
+
+.btn6:hover,
+.btn7:hover {
+    background: white;
+    color: black;
+}
+
+.btn14 {
+    background: none;
+    margin-left: 15px;
+    border: 2px solid white;
+    border-radius: 13px;
+    color: white;
+    padding: 3px 11px 3px 11px;
     font-size: 20px;
 }
 
-.updateData:visited {
-    color: white;
-}
-
-.updateData:hover {
-    color: purple;
+.btn14:hover {
+    background: white;
+    color: black;
 }
 </style>

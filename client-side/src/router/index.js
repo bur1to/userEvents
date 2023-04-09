@@ -8,7 +8,7 @@ import blogCreatePage from '@/pages/blogCreatePage';
 import blogPage from '@/pages/blogPage';
 import createEventPage from '@/pages/createEventPage';
 import updateUserPage from '@/pages/updateUserPage';
-
+import editBlogPage from '@/pages/editBlogPage';
 
 const routes = [
   {
@@ -32,11 +32,11 @@ const routes = [
     component: loginPage
   },
   {
-    path: '/update',
+    path: '/edit_profile',
     component: updateUserPage
   },
   {
-    path: '/blog/:id',
+    path: '/blog',
     component: blogPage
   },
   {
@@ -44,14 +44,19 @@ const routes = [
     component: createEventPage
   },
   {
-    path: '/profile/:id',
+    path: '/profile',
     component: userPage
+  },
+  {
+    path: '/edit_blog',
+    component: editBlogPage
   }
 ];
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
-  routes
+  routes,
+  linkActiveClass: 'active-link',
 })
 
 export default router;

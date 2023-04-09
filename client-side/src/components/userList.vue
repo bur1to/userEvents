@@ -3,7 +3,7 @@
     <h3 class="h3">Users table:</h3>
     <div class="select">
       <strong>Show</strong>
-      <my-select class="show" v-model="limit" :options="selectedNumber"/>
+      <my-select class="show" v-model="limit" :options="selectedNumber" />
       <strong class="show">users</strong>
       <strong>Sort:</strong>
       <my-select v-model="sort" :options="selectedOptions" />
@@ -19,7 +19,7 @@
       <tbody>
         <tr v-for="user in users" :key="user._id">
           <td>
-            <RouterLink :to="'/profile/' + user._id" class="route_style">
+            <RouterLink to="/profile" class="route_style">
               <a>
                 {{ `${user.firstName} ${user.lastName}` }}
               </a>
@@ -31,7 +31,9 @@
           <td v-if="user.nextEvent">{{ user.nextEvent.startDate }}</td>
           <td v-else></td>
           <td>
-            <button class="delete" @click="deleteUser(user._id)">Delete</button>
+            <div class="deleteBlock">
+              <button class="delete" @click="deleteUser(user._id)">Delete</button>
+            </div>
           </td>
         </tr>
       </tbody>
@@ -75,21 +77,31 @@ export default {
   },
   methods: {
     async changePage(pageNumber) {
-      this.page = pageNumber;
-      // localStorage.page = this.page;
-      this.getUsers({ page: pageNumber - 1 });
-      // this.getUsers({ sort: this.sort});
-      // this.getUsers({ limit: this.limit });
+      try {
+        this.page = pageNumber;
+        // localStorage.page = this.page;
+        this.getUsers({ page: pageNumber - 1 });
+        // this.getUsers({ sort: this.sort});
+        // this.getUsers({ limit: this.limit });
+      } catch (err) {
+        console.log(err);
+      }
     },
     async getUsers(params) {
-      const { data } = await axios.get('http://localhost:3000/users', { params });
-      this.users = data.users;
-      this.totalPages = Math.ceil(data.count / this.limit);
+      try {
+        const { data } = await axios.get('http://localhost:3000/users', { params });
+        this.users = data.users;
+        this.totalPages = Math.ceil(data.count / this.limit);
+      } catch (err) {
+        console.log(err);
+      }
     },
     async deleteUser(id) {
-      await axios.delete(`http://localhost:3000/users/${id}`)
-        .then((res) => console.log(res))
-        .catch((err) => console.log(err));
+      try {
+        await axios.delete(`http://localhost:3000/users/${id}`);
+      } catch (err) {
+        console.log(err);
+      }
     },
     showDialog() {
       this.dialogVisible = true;
@@ -135,7 +147,7 @@ a {
 }
 
 a:visited {
-  color: purple;
+  color: white;
 }
 
 .route_style {
@@ -164,13 +176,23 @@ a:visited {
   margin-bottom: 15px;
 }
 
+.deleteBlock {
+  display: flex;
+  justify-content: center;
+}
+
 .delete {
-  margin-bottom: 10px;
   font-size: 20px;
-  background: rgba(255, 255, 255, 0.3);
+  background: none;
   color: white;
+  border: 2px solid white;
   border-radius: 15px;
   padding: 3px 11px 3px 11px
+}
+
+.delete:hover {
+  background: white;
+  color: black;
 }
 
 .show {

@@ -1,16 +1,16 @@
 const mongoose = require('mongoose');
 
-const vlogSchema = mongoose.Schema({
+const blogSchema = mongoose.Schema({
   userId: { type: String },
   title: { type: String, minLength: 10 },
   themes: { type: String },
   content: { type: String },
   date: { type: Date }
 }, {
-  collection: 'vlogs',
+  collection: 'blogs',
   versionKey: false
 });
 
-const Blog = mongoose.model('Blog', vlogSchema);
+const Blog = mongoose.model('Blog', blogSchema);
 
 module.exports = Blog;

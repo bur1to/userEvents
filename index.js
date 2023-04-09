@@ -1,12 +1,17 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const YAML = require('yamljs');
+const swaggerUI = require('swagger-ui-express');
 const cors = require('cors');
 const {
   userRoute,
   eventRoute,
-  loginRoute
+  loginRoute,
+  commentRoute
 } = require('./routes/index');
 const blogRoute = require('./routes/blogRouter');
+
+const swaggerDoc = YAML.load('./swagger/docs.yaml');
 
 mongoose.set('strictQuery', true);
 const app = express();
@@ -23,6 +28,8 @@ app.use('/users', userRoute);
 app.use('/events', eventRoute);
 app.use('/auth', loginRoute);
 app.use('/blogs', blogRoute);
+app.use('/comments', commentRoute);
+app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDoc));
 
 app.listen(3000, () => {
   console.log('Server is running');

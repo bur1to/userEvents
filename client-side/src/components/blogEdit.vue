@@ -20,7 +20,7 @@
                 </label>
                 <input class="input" v-model="blog.date" type="date">
                 <div class="btn_block3">
-                    <button class="btn5" @click="createBlog">Post</button>
+                    <button class="btn5" @click="updateBlog">Edit</button>
                 </div>
             </form>
         </div>
@@ -34,34 +34,31 @@ import axios from 'axios';
 export default {
     data() {
         return {
-            blog: {
-                userId: localStorage.getItem('id'),
-                title: '',
-                themes: '',
-                content: '',
-                date: ''
-            }
+            blog: []
         }
     },
     methods: {
-        async createBlog() {
+        async updateBlog() {
             try {
-                await axios.post('http://localhost:3000/blogs', this.blog);
+                await axios.put(`http://localhost:3000/blogs/${localStorage.getItem('blogId')}`, this.blog)
+                    .then((res) => {
+                        console.log(res);
+                        router.push('/');
+                    })
+                    .catch((err) => console.log(err));
 
-                this.$emit('create', this.blog);
-                this.blog = {
-                    userId: '',
-                    title: '',
-                    themes: '',
-                    content: '',
-                    date: ''
-                }
-
-                router.push('/');
+                this.$emit('edit', this.blog);
             } catch (err) {
                 console.log(err);
             }
+        },
+        async getBlog() {
+            const { data } = await axios.get(`http://localhost:3000/blogs/${localStorage.getItem('blogId')}`);
+            this.blog = data;
         }
+    },
+    mounted() {
+        this.getBlog();
     }
 }
 </script>
@@ -118,3 +115,4 @@ export default {
     border-radius: 5px;
 }
 </style>
+

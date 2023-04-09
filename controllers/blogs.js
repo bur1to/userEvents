@@ -35,7 +35,7 @@ const getBlogs = (async (req, res, next) => {
   }
 });
 
-const getUserBlogs = (async (req, res, next) => {
+const userBlogs = (async (req, res, next) => {
   try {
     const { userId } = req.params;
     const { query } = req;
@@ -48,7 +48,6 @@ const getUserBlogs = (async (req, res, next) => {
 
     const sortOrder = sortBy === 'asc' ? 1 : -1;
 
-    const count = await Blog.countDocuments({ userId });
     const userBlogs = await Blog.find({ userId }, {
       title: 1,
       themes: 1,
@@ -58,6 +57,8 @@ const getUserBlogs = (async (req, res, next) => {
       .skip(page * limit)
       .limit(limit)
       .lean();
+
+    const count = await Blog.countDocuments({ userId });
 
     const result = {
       userBlogs,
@@ -72,17 +73,11 @@ const getUserBlogs = (async (req, res, next) => {
 
 const getBlog = (async (req, res, next) => {
   try {
-    const { userId } = req.params;
+    const { id } = req.params;
 
-    const count = await Blog.countDocuments({ userId });
-    const blog = await Blog.findOne({ userId });
+    const blog = await Blog.findOne({ _id: id });
 
-    const result = {
-      blog,
-      count
-    };
-
-    res.send(result);
+    res.send(blog);
   } catch (err) {
     next(err);
   }
@@ -131,7 +126,7 @@ const deleteBlog = (async (req, res, next) => {
 
 module.exports = {
   getBlogs,
-  getUserBlogs,
+  userBlogs,
   getBlog,
   createBlog,
   updateBlog,

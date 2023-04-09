@@ -1,11 +1,14 @@
 <template>
+    <h3 style="text-align: center;">Your blogs:</h3>
     <div class="blog" v-for="blog in blogs" :key="blog._id">
         <div class="title"><strong>Title: </strong>{{ blog.title }}</div>
         <div class="themes"><strong>Themes: </strong>{{ blog.themes }}</div>
         <div class="content"><strong>Content: </strong>{{ blog.content }}</div>
         <div class="date"><strong>Date: </strong>{{ blog.date }}</div>
         <div class="read">
-            <button class="link" @click="getBlog(blog._id)">Read</button>
+            <button class="btn15" @click="getBlog(blog._id)">Read</button>
+            <button class="btn12" @click="deleteBlog(blog._id)">Delete</button>
+            <button class="btn13" @click="editBlog(blog._id)" :blog="blogs">Edit</button>
         </div>
     </div>
     <div class="page__wrapper">
@@ -16,8 +19,8 @@
 </template>
 
 <script>
-import router from '@/router';
 import axios from 'axios';
+import router from '@/router';
 
 export default {
     data() {
@@ -31,20 +34,29 @@ export default {
         }
     },
     methods: {
+
+        // www.google.com
         changePage(pageNumber) {
             this.page = pageNumber;
-            this.getBlogs({ page: pageNumber - 1 });
+            this.getUserBlogs({ page: pageNumber - 1 });
         },
-        async getBlogs(params) {
+        async getUserBlogs(params) {
             try {
-                const { data } = await axios.get('http://localhost:3000/blogs', { params });
-                this.blogs = data.blogs;
+                const { data } = await axios.get(`http://localhost:3000/blogs/usrBlogs/${localStorage.getItem('id')}`, { params });
+                this.blogs = data.userBlogs;
 
                 for (let i = 0; i < this.blogs.length; i++) {
                     this.blogs[i].date = new Date(this.blogs[i].date).toLocaleDateString('uk-UA');
                 }
 
                 this.totalPages = Math.ceil(data.count / this.limit);
+            } catch (err) {
+                console.log(err);
+            }
+        },
+        async deleteBlog(id) {
+            try {
+                await axios.delete(`http://localhost:3000/blogs/${id}`);
             } catch (err) {
                 console.log(err);
             }
@@ -56,10 +68,14 @@ export default {
             } catch (err) {
                 console.log(err);
             }
+        },
+        editBlog(id) {
+            localStorage.setItem('blogId', id);
+            router.push('/edit_blog');
         }
     },
     mounted() {
-        this.getBlogs();
+        this.getUserBlogs();
     }
 }
 </script>
@@ -67,7 +83,7 @@ export default {
 <style>
 .blog {
     border-radius: 15px;
-    margin-top: 15px;
+    margin-top: 10px;
     margin-left: 335px;
     width: 900px;
     padding: 15px;
@@ -95,20 +111,46 @@ export default {
     justify-content: flex-end;
 }
 
-.link {
+.btn15 {
     border-radius: 15px;
-    padding: 5px 15px 3px 15px;
+    padding: 3px 11px 3px 11px;
     border: 2px solid white;
     color: white;
     background: none;
     font-size: 20px;
 }
 
-.link:visited {
+.btn15:hover {
+    background: white;
+    color: black;
+}
+
+.btn12,
+.btn13 {
+    margin-left: 15px;
+    border: 2px solid white;
+    border-radius: 15px;
+    padding: 3px 11px 3px 11px;
+    font-size: 20px;
+    color: white;
+    background: none;
+}
+
+.edit {
+    color: white;
+    font-size: 20px;
+}
+
+.edit:hover {
+    color: black;
+}
+
+.edit:visited {
     color: white;
 }
 
-.link:hover {
+.btn12:hover,
+.btn13:hover {
     background: white;
     color: black;
 }

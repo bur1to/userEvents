@@ -1,0 +1,795 @@
+openapi: 3.0.0
+info:
+  title: Users events and blogs
+  description: ""
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000
+tags:
+  - name: users
+  - name: events
+  - name: blogs
+  - name: comments
+  - name: login
+paths:
+  /users:
+    x-swagger-router-controllers: users
+    get:
+      tags:
+        - users
+      description: Get all users
+      operationId: getUsers
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+        '500':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /users/register:
+    x-swagger-router-controllers: users
+    post:
+      tags:
+        - users
+      description: Create new user
+      operationId: createUser
+      requestBody:
+        description: Create new user in collection
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserPost'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GeneralResponse'
+        '400':
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /users/{id}:
+    x-swagger-router-controllers: users
+    get:
+      tags:
+        - users
+      description: Get user by id
+      operationId: getUser
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralResponse'
+        '500':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    put:
+      tags:
+        - users
+      description: Edit user information
+      operationId: updateUser
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Update exist user
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserUpdate'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralResponse'
+        '400':
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    delete:
+      tags:
+        - users
+      description: Delete user by id
+      operationId: deleteUser
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralResponse'
+        '500':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /events/{userId}:
+    x-swagger-router-controllers: events
+    get:
+      tags:
+        - events
+      description: Get all user events
+      operationId: getUserEvents
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralResponse'
+        '500':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /events:
+    x-swagger-router-controllers: events
+    post:
+      tags:
+        - events
+      description: Create new event
+      operationId: createEvent
+      requestBody:
+        description: Create new event in collection
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EventPost'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralResponse'
+        '400':
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /events/{id}:
+    x-swagger-router-controllers: events
+    put:
+      tags:
+        - events
+      description: Edit event
+      operationId: updateEvent
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Update exist event
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EventUpdate'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralResponse'
+        '400': 
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    delete:
+      tags:
+        - events
+      description: Delete event
+      operationId: deleteEvent
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralResponse'
+        '500':
+          description: Error
+          content:
+            application/json:
+             schema:
+               $ref: '#/components/schemas/ErrorResponse'
+  /blogs:
+    x-swagger-router-controllers: blogs
+    get:
+      tags:
+        - blogs
+      description: Get all blogs
+      operationId: getBlogs
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralResponse'
+        '500':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    post:
+      tags:
+        - blogs
+      description: Create new blog
+      operationId: createBlog
+      requestBody:
+        description: Create new blog in collection
+        content:
+         application/json:
+           schema:
+             $ref: '#/components/schemas/BlogPost'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralResponse'
+        '500':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /blogs/{id}:
+    x-swagger-router-controllers: blogs
+    get:
+      tags:
+        - blogs
+      description: Get blog by id
+      operationId: getBlog
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralResponse'
+        '500':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    put:
+      tags:
+        - blogs
+      description: Edit blog
+      operationId: updateBlog
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Update exist blog
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BlogUpdate'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralResponse'
+        '400':
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    delete:
+      tags:
+        - blogs
+      description: Delete blog
+      operationId: deleteBlog
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralResponse'
+        '500':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /blogs/userBlogs/{userId}:
+    x-swagger-router-controllers: blogs
+    get:
+      tags:
+        - blogs
+      description: Get user blogs
+      operationId: userBlogs
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200': 
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralResponse'
+        '500':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /comments/{blogId}:
+    x-swagger-router-controllers: comments
+    get:
+      tags:
+        - comments
+      description: Get all blog comments
+      operationId: getComments
+      parameters:
+        - name: blogId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200': 
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralResponse'
+        '500':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /comments/{userId}:
+    x-swagger-router-controllers: comments
+    get:
+      tags:
+        - comments
+      description: Get user comments
+      operationId: userComments
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200': 
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralResponse'
+        '500':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /comments:
+    x-swagger-router-controllers: comments
+    post:
+      tags:
+        - comments
+      description: Create new comment
+      operationId: createComment
+      requestBody:
+        description: Create new comment in collection
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommentPost'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref:  '#/components/schemas/GeneralResponse'
+        '400':
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /comments/{id}:
+    x-swagger-router-controllers: comments
+    put:
+      tags:
+        - comments
+      description: Edit comment
+      operationId: updateComment
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Update exist comment
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommentUpdate'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref:  '#/components/schemas/GeneralResponse'
+        '400':
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    delete:
+      tags:
+        - comments
+      description: Delete comment
+      operationId: deleteComment
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref:  '#/components/schemas/GeneralResponse'
+        '400':
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /auth/login:
+    x-swagger-router-controllers: login
+    post:
+      tags:
+        - login
+      description: Log in
+      operationId: login
+      requestBody:
+        description: User login
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Login'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref:  '#/components/schemas/GeneralResponse'
+        '400':
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse' 
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        phoneNumber:
+          type: string
+        password:
+          type: string
+        confirmPassword:
+          type: string
+      required:
+        - id
+        - firstName
+        - lastName
+        - email
+        - phoneNumber
+    UserPost:
+      type: object
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        phoneNumber:
+          type: string
+        password:
+          type: string
+        confirmPassword:
+          type: string
+      required:
+        - firstName
+        - lastName
+        - email
+        - phoneNumber
+        - password
+        - confirmPassword
+    UserUpdate:
+      type: object
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        phoneNumber:
+          type: string
+        password:
+          type: string
+        confirmPassword:
+          type: string
+    Event:
+      type: object
+      properties:
+        id:
+          type: string
+        userId:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        startDate:
+          type: string
+        endDate:
+          type: string
+      required:
+        - id
+        - title
+        - description
+        - startDate
+        - endDate
+    EventPost:
+      type: object
+      properties:
+        userId:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        startDate:
+          type: string
+        endDate:
+          type: string
+      required:
+        - userId
+        - title
+        - description
+        - startDate
+        - endDate
+    EventUpdate:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        startDate:
+          type: string
+        endDate:
+          type: string
+    Blog:
+      type: object
+      properties:
+        id:
+          type: string
+        userId:
+          type: string
+        title:
+          type: string
+        themes:
+          type: string
+        content:
+          type: string
+        date:
+          type: string
+      required:
+        - id
+        - title
+        - themes
+        - content
+        - date
+    BlogPost:
+      type: object
+      properties:
+        userId:
+          type: string
+        title:
+          type: string
+        themes:
+          type: string
+        content:
+          type: string
+        date:
+          type: string
+      required:
+        - userId
+        - title
+        - themes
+        - content
+        - date
+    BlogUpdate:
+      type: object
+      properties:
+        title:
+          type: string
+        themes:
+          type: string
+        content:
+          type: string
+        date:
+          type: string
+    Comment:
+      type: object
+      properties:
+        id:
+          type: string
+        userId:
+          type: string
+        blogId:
+          type: string
+        comment:
+          type: string
+        author:
+          type: string
+      required:
+        - id
+        - userId
+        - blogId
+        - comment
+        - author
+    CommentPost:
+      type: object
+      properties:
+        userId:
+          type: string
+        blogId:
+          type: string
+        comment:
+          type: string
+        author:
+          type: string
+      required:
+        - userId
+        - blogId
+        - comment
+        - author
+    CommentUpdate:
+      type: object
+      properties:
+        comment:
+          type: string
+    Login:
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+      required:
+        - email
+        - password
+    GeneralResponse:
+      type: object
+      properties:
+        message:
+          type: string
+      required:
+        - message
+    ErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+      required:
+        - message

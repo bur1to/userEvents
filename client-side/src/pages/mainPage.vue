@@ -9,15 +9,19 @@
 import blogList from '@/components/blogList';
 
 export default {
-    components: {
-        blogList
-    }
+  components: {
+    blogList
+  }
 }
 </script>
 
 <style>
-  .pageName {
-    text-align: center;
-    color: white;
-  }
+body {
+  margin: none;
+}
+
+.pageName {
+  text-align: center;
+  color: white;
+}
 </style>

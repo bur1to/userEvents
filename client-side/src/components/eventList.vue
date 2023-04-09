@@ -20,7 +20,9 @@
                     <td>{{ event.startDate }}</td>
                     <td>{{ event.endDate }}</td>
                     <td>
-                        <my-button @click="deleteEvent(event._id)" class="btn__delete">Delete</my-button>
+                        <div style="display: flex; justify-content: center; padding-top: 10px;">
+                            <button @click="deleteEvent(event._id)" class="btn__delete">Delete</button>
+                        </div>
                     </td>
                 </tr>
             </tbody>
@@ -56,17 +58,23 @@ export default {
             this.page = pageNumber;
             this.getEvents({ page: pageNumber - 1 });
             this.sort = this.sort;
-            this.getEvents({sort: this.sort});
+            this.getEvents({ sort: this.sort });
         },
         async getEvents(params) {
-            const { data } = await axios.get(`http://localhost:3000/events/${this.$route.params.id}`, { params });
+            const { data } = await axios.get(`http://localhost:3000/events/${localStorage.getItem('id')}`, { params });
             this.events = data;
+
+            for (let i = 0; i < this.events.length; i++) {
+                this.events[i].startDate = new Date(this.events[i].startDate).toLocaleDateString('uk-UA');
+                this.events[i].endDate = new Date(this.events[i].endDate).toLocaleDateString('uk-UA');
+            }
+
             this.totalPages = Math.ceil(data.length / this.limit);
         },
         async deleteEvent(id) {
             await axios.delete(`http://localhost:3000/events/${id}`)
-              .then((res) => console.log(res))
-              .catch((err) => console.log(err));
+                .then((res) => console.log(res))
+                .catch((err) => console.log(err));
         }
     },
     mounted() {
@@ -84,6 +92,7 @@ export default {
     border-collapse: collapse;
     border: 2px solid white;
     margin: auto;
+    font-size: 20px;
 }
 
 thead {
@@ -112,7 +121,9 @@ a:visited {
 .page__wrapper {
     display: flex;
     margin-top: 15px;
+    padding-top: 10px;
     justify-content: center;
+    color: white;
 }
 
 .page {
@@ -127,6 +138,17 @@ a:visited {
 
 .btn__delete {
     margin-bottom: 10px;
+    color: white;
+    font-size: 20px;
+    border-radius: 15px;
+    background: none;
+    padding: 3px 12px 3px 12px;
+    border: 2px solid white;
+}
+
+.btn__delete:hover {
+    background: white;
+    color: black;
 }
 
 .select {
