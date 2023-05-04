@@ -71,6 +71,7 @@ export default {
     display: flex;
     justify-content: center;
     color: white;
+    margin-bottom: 15px;
 }
 
 .createForm {

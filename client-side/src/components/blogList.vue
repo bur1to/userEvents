@@ -68,7 +68,7 @@ export default {
 .blog {
     border-radius: 15px;
     margin-top: 15px;
-    margin-left: 335px;
+    margin-left: 200px;
     width: 900px;
     padding: 15px;
     padding-top: 15px;

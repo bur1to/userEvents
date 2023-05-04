@@ -16,7 +16,7 @@
     <div class="btn_block2" v-if="isLogged === false">
         <router-link to="/login"><button class="btn9">Log in</button></router-link>
         <div class="home">
-            <router-link to="/" class="routerLink home">Home</router-link>
+            <router-link to="/" class="home">Home</router-link>
         </div>
     </div>
 </template>
@@ -114,7 +114,6 @@ export default {
 
 .ul {
     display: flex;
-    margin-left: 45px;
     gap: 8;
     list-style-type: none;
 }
@@ -136,7 +135,7 @@ export default {
 
 .home {
     margin-top: 5px;
-    padding-left: 320px;
+    padding-left: 258px;
 }
 
 .routerLink:visited,

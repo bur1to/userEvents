@@ -67,6 +67,7 @@ export default {
   display: flex;
   justify-content: center;
   color: white;
+  margin-left: 15px;
 }
 
 .btn11 {

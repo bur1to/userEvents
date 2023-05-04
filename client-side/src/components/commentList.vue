@@ -1,5 +1,5 @@
 <template>
-  <div style="color: white; font-size: 22px; padding-left: 15px; padding-top: 10px;"> {{ comments.length }} Comments</div>
+  <div style="color: white; font-size: 22px; padding-left: 15px; padding-top: 10px; padding-bottom: 5px;"> {{ comments.length }} Comments</div>
   <div class="commentList" v-for="comment in comments" :key="comment._id">
     <div style="margin-bottom: 5px;">{{ comment.author }}</div>
     <div>{{ comment.comment }}</div>
@@ -75,7 +75,6 @@ export default {
   font-size: 20px;
   border-radius: 15px;
   padding: 15px;
-
 }
 
 .rep,
